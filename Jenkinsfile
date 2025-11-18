@@ -39,19 +39,19 @@ pipeline {
             }
         }
 
-        stage('SonarQube ================') {
-            steps {
-                echo "Running SonarQube ======================..."
-                withSonarQubeEnv('sonarqube-server') {
-                        sh '''
-                            $SONAR_SERVER_HOME/bin/sonar-scanner \
-                                -Dsonar.projectKey=${APP_NAME} \
-                                -Dsonar.java.binaries=. \
-                                -Dsonar.projectName="${APP_NAME}"
-                        '''
-                    }
-            }
-        }
+//         stage('SonarQube ================') {
+//             steps {
+//                 echo "Running SonarQube ======================..."
+//                 withSonarQubeEnv('sonarqube-server') {
+//                         sh '''
+//                             $SONAR_SERVER_HOME/bin/sonar-scanner \
+//                                 -Dsonar.projectKey=${APP_NAME} \
+//                                 -Dsonar.java.binaries=. \
+//                                 -Dsonar.projectName="${APP_NAME}"
+//                         '''
+//                     }
+//             }
+//         }
 
         stage('SonarQube Analysis') {
             steps {
