@@ -6,13 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * Automation Jenkins Test
+ * Automation Jenkins Test.
  */
 @SpringBootApplication
 @RestController
 public class AutomationTestApplication {
 
     /**
+     * Default welcome endpoint.
      * @return welcome message
      */
     @GetMapping
