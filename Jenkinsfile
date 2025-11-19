@@ -109,6 +109,34 @@ pipeline {
                 }
             }
         }
+
+//         stage('Deploy to Remote Server') {
+//             steps {
+//                 script {
+//                     sshagent(['ssh-key-id']) {
+//                         sh """
+//                             ssh -o StrictHostKeyChecking=no user@your-server-ip '
+//                                 echo "Stopping old container..."
+//                                 docker stop automation-test || true
+//                                 docker rm automation-test || true
+//
+//                                 echo "Pulling latest image..."
+//                                 docker pull codedev001/automation-test:${IMAGE_TAG}
+//
+//                                 echo "Starting new container..."
+//                                 docker run -d --name automation-test \
+//                                     -p 8085:8080 \
+//                                     codedev001/automation-test:${IMAGE_TAG}
+//
+//                                 echo "Deployment successful!"
+//                             '
+//                         """
+//                     }
+//                 }
+//             }
+//         }
+
+
     }
     post {
         success {
@@ -123,3 +151,5 @@ pipeline {
         }
     }
 }
+
+
