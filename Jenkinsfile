@@ -465,6 +465,7 @@ pipeline {
         IMAGE_TAG = "${BUILD_NUMBER}"
         DOCKER_USERNAME = 'codedev001'
         DOCKER_CREDENTIALS_ID = 'e440bc91-a2a0-45d8-ae88-b13a659a1bdd'
+        BRANCH_NAME = "${env.GIT_BRANCH}"
     }
     parameters{
         booleanParam(
@@ -480,6 +481,7 @@ pipeline {
     }
 
     triggers {
+        pollSCM('* * * * *')
         githubPush() // GitHub
         // gitlabPush()  // For GitLab (requires GitLab plugin)
     }
@@ -487,9 +489,22 @@ pipeline {
     stages {
         stage('Git Checkout') {
             steps {
-                git changelog: false, credentialsId: 'a5d2cdac-fdd7-4b7a-85ab-3e41d14dcd3a', poll: false, url: 'https://github.com/kueshy/devops-jenkins-automation'
+                git changelog: false, credentialsId: 'a5d2cdac-fdd7-4b7a-85ab-3e41d14dcd3a', poll: true, url: 'https://github.com/kueshy/devops-jenkins-automation'
             }
         }
+        // stage('Git Checkout') {
+        //     steps {
+        //         checkout([
+        //             $class: 'GitSCM',
+        //             branches: [[name: "*/${BRANCH_NAME}"]],
+        //             userRemoteConfigs: [[
+        //                 url: 'https://github.com/kueshy/devops-jenkins-automation.git',
+        //                 credentialsId: 'a5d2cdac-fdd7-4b7a-85ab-3e41d14dcd3a'
+        //             ]]
+        //         ])
+        //     }
+        // }
+
 
         stage('Code Analysis') {
             parallel {
@@ -774,4 +789,5 @@ pipeline {
         //}
     }
 }
+
 
