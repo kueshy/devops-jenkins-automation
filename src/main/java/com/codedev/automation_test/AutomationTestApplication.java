@@ -22,6 +22,15 @@ public class AutomationTestApplication {
     }
 
     /**
+     * Hello message endpoint.
+     * @return welcome message
+     */
+    @GetMapping("/hello")
+    public String hello() {
+        return "Hello World";
+    }
+
+    /**
      * The entry point of the Automation Test Spring Boot application.
      *
      * @param args the input arguments
