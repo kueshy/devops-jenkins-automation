@@ -1,0 +1,35 @@
+version: "3.9"
+
+services:
+  automation-app:
+    image: codedev001/automation-test:${IMAGE_TAG}   # replace with your image
+    container_name: automation-test
+    restart: unless-stopped
+    ports:
+      - "8085:8080"                  # host:container port mapping
+    env_file:
+      - .env                        # external env file for sensitive configs
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8080/actuator/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+    volumes:
+      - app-logs:/var/log/app       # persistent logging
+      - ./config:/app/config        # bind app config from host
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1024M
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "5"
+
+volumes:
+  app-logs:
