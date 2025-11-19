@@ -39,19 +39,19 @@ pipeline {
             }
         }
 
-//         stage('SonarQube ================') {
-//             steps {
-//                 echo "Running SonarQube ======================..."
-//                 withSonarQubeEnv('sonarqube-server') {
-//                         sh '''
-//                             $SONAR_SERVER_HOME/bin/sonar-scanner \
-//                                 -Dsonar.projectKey=${APP_NAME} \
-//                                 -Dsonar.java.binaries=. \
-//                                 -Dsonar.projectName="${APP_NAME}"
-//                         '''
-//                     }
-//             }
-//         }
+        stage('SonarQube ================') {
+            steps {
+                echo "Running SonarQube ======================..."
+                withSonarQubeEnv('sonarqube-server') {
+                        sh '''
+                            $SONAR_SERVER_HOME/bin/sonar-scanner \
+                                -Dsonar.projectKey=${APP_NAME} \
+                                -Dsonar.java.binaries=. \
+                                -Dsonar.projectName="${APP_NAME}"
+                        '''
+                    }
+            }
+        }
 
         stage('SonarQube Analysis') {
             steps {
@@ -110,6 +110,30 @@ pipeline {
             }
         }
 
+        stage('Deploy Container') {
+            steps {
+                script {
+                    sh """
+                        docker rm -f automation-test || true
+                        docker pull ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${IMAGE_TAG}
+                        docker run -d --name automation-test \
+                            -p 8085:12080 \
+                            ${DOCKER_USERNAME}/${DOCKER_IMAGE}:${IMAGE_TAG}
+
+                        echo "⏳ Waiting for container to start..."
+                        sleep 10
+
+                        echo " Checking running containers..."
+                        docker ps | grep automation-test || { echo "❌ Container failed to start"; exit 1; }
+
+                        echo " Container deployed and working!"
+
+                    """
+                }
+            }
+        }
+
+
 //         stage('Deploy to Remote Server') {
 //             steps {
 //                 script {
@@ -151,5 +175,6 @@ pipeline {
         }
     }
 }
+
 
 
