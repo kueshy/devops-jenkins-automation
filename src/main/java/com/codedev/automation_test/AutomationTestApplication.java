@@ -5,7 +5,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
+/**
+ * Automation Jenkins Test
+ */
 @SpringBootApplication
 @RestController
 public class AutomationTestApplication {
@@ -18,7 +20,12 @@ public class AutomationTestApplication {
         return "Welcome to Automation Test";
     }
 
-    public static void main(String[] args) {
+    /**
+     * The entry point of the Automation Test Spring Boot application.
+     *
+     * @param args the input arguments
+     */
+    public static void main(final String[] args) {
         SpringApplication.run(AutomationTestApplication.class, args);
     }
 
