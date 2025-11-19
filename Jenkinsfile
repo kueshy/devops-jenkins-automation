@@ -430,3 +430,23 @@ pipeline {
     }
 }
 
+
+// stage('Deploy') {
+//     when {
+//         anyOf {
+//             branch 'main'
+//             branch 'develop'
+//         }
+//     }
+//     steps {
+//         script {
+//             if (env.BRANCH_NAME == 'main') {
+//                 sh "echo Deploying to Production Server"
+//             } else if (env.BRANCH_NAME == 'develop') {
+//                 sh "echo Deploying to Staging Server"
+//             }
+//         }
+//     }
+// }
+
+
